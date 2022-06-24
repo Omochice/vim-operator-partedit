@@ -2,26 +2,36 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 function! operator#partedit#start(_) abort
+  let l:head_linenr = line("'[")
+  let l:tail_linenr = line("']")
+  if l:tail_linenr > l:tail_linenr
+    return
+  endif
   call partedit#start(line("'["), line("']"))
 endfunction
 
 function! operator#partedit#codeblock(_) abort
-  echomsg 'codeblock'
-  if getline(line("'[")) =~# '```'
+  let l:head_linenr = line("'[")
+  let l:tail_linenr = line("']")
+
+  " NOTE: Deny reverced range
+  if l:head_linenr > l:tail_linenr
+    return
+  endif
+
+  if getline(l:head_linenr) =~# '```'
     " case1: contain fence
-    if line("'[") + 1 ==# line("']")
+    if l:head_linenr + 1 ==# l:tail_linenr
       " select codeblock that cantain no code area
       return
     endif
-    let l:filetype = matchstr(getline(line("'[")), '\v```\s*\zs[-a-zA-Z0-9]+\ze')
-    echomsg 'case1'
-    call partedit#start(line("'[")+1, line("']")-1, { 'filetype': l:filetype })
+    let l:filetype = matchstr(getline(l:head_linenr), '\v```\s*\zs[-a-zA-Z0-9]+\ze')
+    call partedit#start(l:head_linenr+1, l:tail_linenr-1, { 'filetype': l:filetype })
     return
   else
     " case2: not contain fence
-    let l:filetype = matchstr(getline(line("'[")-1), '\v```\s*\zs[-a-zA-Z0-9]+\ze')
-    echomsg 'case2'
-    call partedit#start(line("'["), line("']"), { 'filetype': l:filetype })
+    let l:filetype = matchstr(getline(l:head_linenr), '\v```\s*\zs[-a-zA-Z0-9]+\ze')
+    call partedit#start(l:head_linenr, l:tail_linenr, { 'filetype': l:filetype })
     return
   endif
 endfunction
