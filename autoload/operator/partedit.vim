@@ -30,7 +30,7 @@ function! operator#partedit#codeblock(_) abort
     return
   else
     " case2: not contain fence
-    let l:filetype = matchstr(getline(l:head_linenr), '\v```\s*\zs[-a-zA-Z0-9]+\ze')
+    let l:filetype = matchstr(getline(l:head_linenr-1), '\v```\s*\zs[-a-zA-Z0-9]+\ze')
     call partedit#start(l:head_linenr, l:tail_linenr, { 'filetype': l:filetype })
     return
   endif
