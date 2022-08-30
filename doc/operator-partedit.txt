@@ -1,0 +1,29 @@
+*operator-partedit*     Operator to open part of buffer into other buffer
+
+License: MIT license
+
+CONTENTS                                        *operator-partedit-contents*
+
+INTRODUCTION                            |operator-partedit-introduction|
+KEYMAPPINGS                             |operator-partedit-keymappings|
+
+==============================================================================
+INTRODUCTION                            *operator-partedit-introduction*
+
+|operator-partedit| is a Vim plugin that provide some operator which use 
+partedit.
+
+==============================================================================
+KEYMAPPINGS                             *operator-partedit-keymappings*
+
+<Plug>(operator-partedit-start)       *<Plug>(operator-partedit-start)*
+        Open part of buffer into other buffer.
+        The new buffer has no filetype.
+
+<Plug>(operator-partedit-codeblock)   *<Plug>(operator-partedit-codeblock)*
+        Open part of buffer into other buffer.
+        If first line of motion is like markdown's codeblock, open buffer as 
+        its filetype.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl:fen:fdl=0:fdm=marker:
